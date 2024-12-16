@@ -17,7 +17,7 @@ function addRandomVideo() {
     const videoElement = document.createElement('video');
     videoElement.classList.add('meme-video');
     videoElement.src = getRandomVideo(); // Set the video source to a random
-    videoElement.preload = "auto"; // Preload the video to avoid delays
+    videoElement.preload = "false"; // Preload the video to avoid delays
     videoElement.loop = true; // Make video loop when it ends
     videoElement.controls = true;
     videoElement.playsInline = true; // Inline playback
