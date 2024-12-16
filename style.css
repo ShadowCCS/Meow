@@ -84,6 +84,11 @@ h1 {
   transition: transform 0.3s ease-in-out; /* Smooth animation on hover */
 }
 
+.meme-video {
+    pointer-events: none; /* Prevents interaction, including tap-to-fullscreen */
+}
+
+
 /* Video Hover Effect */
 .meme-video:hover {
   transform: scale(1.05); /* Slight zoom effect */
