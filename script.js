@@ -5,43 +5,9 @@ const videoContainer = document.getElementById('video-container');
 
 const videoCount = 20; // Total number of videos
 const videoFolder = 'Videos/'; // Folder where videos are stored
-
-// Function to pick a random video
-function getRandomVideo() {
-    const randomVideoIndex = Math.floor(Math.random() * videoCount) + 1; // Random number between 1 and 20
-    return `${videoFolder}${randomVideoIndex}.mp4`; // Return the video file path
-}
-
-// Function to add a new random video element to the page
-function addRandomVideo() {
-    const videoElement = document.createElement('video');
-    videoElement.classList.add('meme-video');
-    videoElement.src = getRandomVideo(); // Set the video source to a random
-    videoElement.preload = "false"; // Preload the video to avoid delays
-    videoElement.loop = true; // Make video loop when it ends
-    videoElement.controls = true;
-    videoElement.playsInline = true; // Inline playback
-    videoElement.webkitPlaysInline = true; // Safari-specific inline playback
-
-    videoContainer.appendChild(videoElement); // Add video to container
-}
-
-// Add initial set of videos (e.g., 10 videos initially)
-for (let i = 0; i < 10; i++) {
-    addRandomVideo();
-}
-
-// Detect when user scrolls near the bottom and add more videos
-window.addEventListener('scroll', () => {
-    // Check if the user has scrolled near the bottom of the page
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-        addRandomVideo(); // Add a new random video when user scrolls to the bottom
-    }
-});
-
-// Intersection Observer to detect visibility of videos and autoplay
 let currentPlayingVideo = null; // Track the currently playing video
 
+// Intersection Observer to detect visibility of videos and autoplay
 const videoObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         const video = entry.target;
@@ -68,9 +34,47 @@ const videoObserver = new IntersectionObserver((entries, observer) => {
     });
 }, { threshold: 0.5 }); // 50% of the video should be in the viewport to trigger autoplay
 
-// Observe all videos added to the page
-document.querySelectorAll('.meme-video').forEach(video => {
-    videoObserver.observe(video);
+// Function to pick a random video
+function getRandomVideo() {
+    const randomVideoIndex = Math.floor(Math.random() * videoCount) + 1; // Random number between 1 and 20
+    return `${videoFolder}${randomVideoIndex}.mp4`; // Return the video file path
+}
+
+// Function to add a new random video element to the page
+function addRandomVideo() {
+    const videoElement = document.createElement('video');
+    videoElement.classList.add('meme-video');
+    videoElement.src = getRandomVideo(); // Set the video source to a random
+    videoElement.preload = "metadata"; // Preload only metadata initially
+    videoElement.loop = false; // No infinite looping
+    videoElement.controls = true; // Show controls
+    videoElement.playsInline = true; // Inline playback
+    videoElement.webkitPlaysInline = true; // Safari-specific inline playback
+    videoElement.muted = true; // Initially muted to avoid autoplay issues
+
+    // Limit playback to 20 seconds
+    videoElement.addEventListener('timeupdate', () => {
+        if (videoElement.currentTime >= 20) {
+            videoElement.pause();
+            videoElement.currentTime = 0; // Reset video to the start
+        }
+    });
+
+    videoContainer.appendChild(videoElement); // Add video to container
+    videoObserver.observe(videoElement); // Start observing the new video
+}
+
+// Add initial set of videos (e.g., 10 videos initially)
+for (let i = 0; i < 10; i++) {
+    addRandomVideo();
+}
+
+// Detect when user scrolls near the bottom and add more videos
+window.addEventListener('scroll', () => {
+    // Check if the user has scrolled near the bottom of the page
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        addRandomVideo(); // Add a new random video when user scrolls to the bottom
+    }
 });
 
 // Countdown Timer
