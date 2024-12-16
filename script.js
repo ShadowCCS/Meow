@@ -17,11 +17,11 @@ function addRandomVideo() {
     const videoElement = document.createElement('video');
     videoElement.classList.add('meme-video');
     videoElement.src = getRandomVideo(); // Set the video source to a random
-    videoElement.playsInline = true;
-    videoElement.controls = true; // Enable video controls
     videoElement.preload = "auto"; // Preload the video to avoid delays
     videoElement.loop = true; // Make video loop when it ends
-    videoElement.muted = true; // Start muted to bypass autoplay restrictions
+    videoElement.controls = true;
+    videoElement.playsInline = true; // Inline playback
+    videoElement.webkitPlaysInline = true; // Safari-specific inline playback
 
     videoContainer.appendChild(videoElement); // Add video to container
 }
