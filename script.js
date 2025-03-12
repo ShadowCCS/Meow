@@ -1,4 +1,3 @@
-const countdownElement = document.getElementById('countdown');
 const giftBox = document.getElementById('gift-box');
 const hiddenPage = document.getElementById('hidden-page');
 const videoContainer = document.getElementById('video-container');
@@ -77,26 +76,8 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Countdown Timer
-function updateCountdown() {
-    const now = new Date();
-    const targetDate = new Date(now.getFullYear(), 3, 12); // 24th December
-    const diff = targetDate - now;
-
-    if (diff <= 0) {
-        countdownElement.textContent = "God Jul, Trykk på gaven";
-        giftBox.style.display = 'block';
-    } else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        countdownElement.textContent = `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds left!`;
-    }
-}
-
-setInterval(updateCountdown, 1000);
+// Show gift box immediately instead of waiting for countdown
+giftBox.style.display = 'block';
 
 // Show hidden page when gift box is clicked
 giftBox.addEventListener('click', () => {
