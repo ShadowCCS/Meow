@@ -80,7 +80,7 @@ window.addEventListener('scroll', () => {
 // Countdown Timer
 function updateCountdown() {
     const now = new Date();
-    const targetDate = new Date(now.getFullYear(), 11, 16); // 24th December
+    const targetDate = new Date(now.getFullYear(), 3, 12); // 24th December
     const diff = targetDate - now;
 
     if (diff <= 0) {
